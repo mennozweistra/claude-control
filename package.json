@@ -1,0 +1,25 @@
+{
+  "name": "claude-control",
+  "version": "1.0.0",
+  "description": "Experiments in keeping Claude Code under control for software projects.",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mennozweistra/claude-control.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mennozweistra/claude-control/issues"
+  },
+  "homepage": "https://github.com/mennozweistra/claude-control#readme",
+  "dependencies": {
+    "@playwright/test": "^1.54.1"
+  }
+}

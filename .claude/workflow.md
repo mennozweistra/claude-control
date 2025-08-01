@@ -2,7 +2,7 @@
 
 ## Configuration
 - **Target Task Duration**: 15 minutes (tasks should be broken down if expected to exceed this)
-- **Last Task Number**: 0 (strictly updated after task creation, represents total tasks created)
+- **Last Task Number**: 10 (strictly updated after task creation, represents total tasks created)
 
 This workflow defines how tasks are managed throughout the project lifecycle using the task tracking system in `./.claude/tasks.md`.
 
@@ -39,7 +39,7 @@ This workflow defines how tasks are managed throughout the project lifecycle usi
 - **When**: After AI has analyzed and planned the task in detail
 - **Requirements**: 
   - Implementation plan section completed with detailed implementation steps
-  - Test plan section completed with verification steps
+  - Test plan section completed with verification steps broken down into numbered steps
   - Task broken down to fit within target duration (15 minutes)
 - **Transition from**: Todo
 
@@ -81,11 +81,11 @@ This workflow defines how tasks are managed throughout the project lifecycle usi
 Each task in `./claude/tasks.md` should contain:
 
 - **Task Number**: Sequential number for easy reference (e.g., 1, 2, 3)
-- **Title**: Clear, descriptive task name
+- **Title**: Clear, descriptive task name with checkbox `[ ]` (checked `[x]` when status is Completed)
 - **Status**: Current status from the workflow above
 - **Description**: Detailed task requirements
-- **Implementation Plan**: Numbered implementation steps (required for Planned status)
-- **Test Plan**: Numbered verification steps (required for Planned status)
+- **Implementation Plan**: Numbered implementation steps with checkboxes `[ ]` (checked `[x]` when step is completed)
+- **Test Plan**: Numbered verification steps with checkboxes `[ ]` (checked `[x]` when step is completed)
 - **Started**: Timestamp when work began
 - **Review**: Timestamp when ready for user review
 - **Completed**: Timestamp when user approved completion

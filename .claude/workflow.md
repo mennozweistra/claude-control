@@ -71,15 +71,17 @@ This workflow defines how tasks are managed throughout the project lifecycle usi
 - **Requirements**: 
   - Review timestamp must be set (local time via bash)
   - All testing completed successfully
+  - **Issues Summary**: Must include explicit "Issues Found" section listing any problems discovered during task and their fixes
 - **Transition from**: Testing
 
 ### 6. Completed
 - **When**: User confirms task completion after review
 - **Requirements**: 
   - Only user can set this status
-  - Completed timestamp must be set (local time via bash)
+  - **MANDATORY GIT CHECK**: AI must run `git status` before marking as Completed
+  - **COMMIT REMINDER**: If uncommitted changes exist, AI must remind user to commit BEFORE marking completed
+  - **ONLY AFTER COMMIT**: Mark task as completed with timestamp and duration
   - Duration calculated from Started to Completed timestamps
-  - **Commit Reminder**: Before marking as Completed, AI should check git status and remind user to commit changes if uncommitted work exists
 - **Transition from**: Review (user approval only)
 
 ## Task Structure
@@ -126,7 +128,7 @@ Tasks and steps can be referenced using the format `<task>.<step>`:
 - Set timestamps using bash commands for local time (no timezone)
 - Only users can mark tasks as Completed
 - If user provides corrections during Review, return to Started status
-- **Before marking task as Completed**: Check git status and remind user to commit changes if uncommitted work exists (helps maintain clean task-based commit history)
+- **Before marking task as Completed**: MANDATORY - run `git status` and remind user to commit changes if uncommitted work exists (helps maintain clean task-based commit history)
 - Document all work in the appropriate task entry
 - Document resolved tool issues in `tools.md`
 - When user requests archival, move completed tasks to `tasks-archive/tasks-archive-<yyyy-mm-dd>.md`

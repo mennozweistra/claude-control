@@ -26,33 +26,6 @@ This document lists available tools and their command-line instructions. When AI
 
 <!-- When AI resolves tool problems, document the solutions here -->
 
-### Firefox MCP Configuration Test
-```
-**Issue**: Testing Firefox browser configuration for Playwright MCP server
-**Configuration**: `claude mcp add playwright "npx @playwright/mcp --browser firefox"`
-**Status**: Failed - MCP server shows "Failed to connect" in `claude mcp list`
-**Workaround**: browser-tools MCP remains functional (screenshot capability confirmed)
-**Date**: 2025-07-31
-```
-
-### WebKit MCP Configuration Test
-```
-**Issue**: Testing WebKit browser configuration for Playwright MCP server
-**Configuration**: `claude mcp add playwright "npx @playwright/mcp --browser webkit"`
-**Status**: Failed - MCP server shows "Failed to connect" in `claude mcp list`
-**Workaround**: browser-tools MCP remains functional (screenshot capability confirmed)
-**Date**: 2025-07-31
-```
-
-### Headless Chromium MCP Configuration Test
-```
-**Issue**: Testing headless Chromium browser configuration for Playwright MCP server
-**Configuration**: `claude mcp add playwright "npx @playwright/mcp --browser chromium --headless"`
-**Status**: Failed - MCP server shows "Failed to connect" in `claude mcp list`
-**Workaround**: browser-tools MCP remains functional (screenshot capability confirmed)
-**Date**: 2025-08-01
-```
-
 ### Example Entry:
 ```
 **Issue**: [Description of the problem encountered]
@@ -62,20 +35,40 @@ This document lists available tools and their command-line instructions. When AI
 
 ---
 
-**Issue**: Playwright MCP server fails to connect with CHROME_PATH environment variable configuration
-**Solution**: CHROME_PATH=/usr/bin/chromium-browser configuration failed - connection still not working. Browser-tools MCP remains functional.
-**Date**: 2025-08-01
+**Issue**: Playwright MCP server persistent connection failures despite working MCP protocol
+**Root Cause**: Claude Code command parsing treats complex commands like `npx @playwright/mcp` as single executable names, causing ENOENT errors
+**Solution**: Use bash wrapper scripts with explicit PATH and exec for all MCP servers:
 
----
+**Playwright MCP Wrapper** (`.claude/playwright-mcp.sh`):
+```bash
+#!/bin/bash
+export PATH="/home/menno/.nvm/versions/node/v22.17.1/bin:$PATH"
+exec npx @playwright/mcp "$@"
+```
 
-**Issue**: Playwright MCP server fails to connect with alternative Chromium paths configuration
-**Solution**: Both /usr/bin/chromium-browser and /snap/bin/chromium paths failed - connection still not working. Browser-tools MCP remains functional with screenshot capability confirmed.
-**Date**: 2025-08-01
+**Chrome MCP Wrapper** (`.claude/chrome-mcp.sh`):
+```bash
+#!/bin/bash
+export PATH="/home/menno/.nvm/versions/node/v22.17.1/bin:$PATH"
+exec npx chrome-mcp-stdio "$@"
+```
 
----
+**Browser Tools MCP Wrapper** (`.claude/browser-tools-mcp.sh`):
+```bash
+#!/bin/bash
+export PATH="/home/menno/.nvm/versions/node/v22.17.1/bin:$PATH"
+exec npx browser-tools-mcp "$@"
+```
 
-**Issue**: Playwright MCP server fails to connect even after Chrome installation
-**Solution**: Chrome installation via Playwright completed successfully, but MCP server connection still fails. Browser-tools MCP remains functional with screenshot capability confirmed.
+**Configuration Commands**:
+```bash
+claude mcp add playwright "/path/to/project/.claude/playwright-mcp.sh"
+claude mcp add chrome-mcp-stdio "/path/to/project/.claude/chrome-mcp.sh"
+claude mcp add browser-tools "/path/to/project/.claude/browser-tools-mcp.sh"
+```
+
+**Status**: ✅ FULLY RESOLVED - All MCP servers now connect consistently, no Claude Code restarts required
+**Verification**: `claude mcp list` shows all servers as "✓ Connected"
 **Date**: 2025-08-01
 
 ---

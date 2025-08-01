@@ -37,34 +37,41 @@ This document lists available tools and their command-line instructions. When AI
 
 **Issue**: Playwright MCP server persistent connection failures despite working MCP protocol
 **Root Cause**: Claude Code command parsing treats complex commands like `npx @playwright/mcp` as single executable names, causing ENOENT errors
-**Solution**: Use bash wrapper scripts with explicit PATH and exec for all MCP servers:
+**Solution**: Use global bash wrapper scripts with explicit PATH and exec for all MCP servers:
 
-**Playwright MCP Wrapper** (`.claude/playwright-mcp.sh`):
+**Global Setup** (run once):
 ```bash
+# Create global MCP wrapper directory
+mkdir -p ~/.local/bin/mcp-wrappers
+
+# Create wrapper scripts (adjust NODE_PATH as needed)
+cat > ~/.local/bin/mcp-wrappers/playwright-mcp.sh << 'EOF'
 #!/bin/bash
 export PATH="/home/menno/.nvm/versions/node/v22.17.1/bin:$PATH"
 exec npx @playwright/mcp "$@"
-```
+EOF
 
-**Chrome MCP Wrapper** (`.claude/chrome-mcp.sh`):
-```bash
+cat > ~/.local/bin/mcp-wrappers/chrome-mcp.sh << 'EOF'
 #!/bin/bash
 export PATH="/home/menno/.nvm/versions/node/v22.17.1/bin:$PATH"
 exec npx chrome-mcp-stdio "$@"
-```
+EOF
 
-**Browser Tools MCP Wrapper** (`.claude/browser-tools-mcp.sh`):
-```bash
+cat > ~/.local/bin/mcp-wrappers/browser-tools-mcp.sh << 'EOF'
 #!/bin/bash
 export PATH="/home/menno/.nvm/versions/node/v22.17.1/bin:$PATH"
 exec npx browser-tools-mcp "$@"
+EOF
+
+# Make scripts executable
+chmod +x ~/.local/bin/mcp-wrappers/*.sh
 ```
 
-**Configuration Commands**:
+**Configuration Commands** (per project):
 ```bash
-claude mcp add playwright "/path/to/project/.claude/playwright-mcp.sh"
-claude mcp add chrome-mcp-stdio "/path/to/project/.claude/chrome-mcp.sh"
-claude mcp add browser-tools "/path/to/project/.claude/browser-tools-mcp.sh"
+claude mcp add playwright "$HOME/.local/bin/mcp-wrappers/playwright-mcp.sh"
+claude mcp add chrome-mcp-stdio "$HOME/.local/bin/mcp-wrappers/chrome-mcp.sh"
+claude mcp add browser-tools "$HOME/.local/bin/mcp-wrappers/browser-tools-mcp.sh"
 ```
 
 **Status**: ✅ FULLY RESOLVED - All MCP servers now connect consistently, no Claude Code restarts required

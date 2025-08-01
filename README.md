@@ -1,18 +1,21 @@
 # Claude Control
 
-Experiments in keeping Claude Code under control for software projects.
+A structured workflow for managing Claude Code in software projects.
 
-## What it is
+## Overview
 
-Start with `CLAUDE.md` and the files in `.claude/` to manage Claude Code for a software project. Prompt Claude with your requirements and architecture, then ask it to generate and perform tasks.
+Uses `CLAUDE.md` and `.claude/` directory to guide Claude through systematic task management with requirements tracking, architectural guidance, and progress monitoring.
 
 ## Usage
 
-1. Copy to your project:
-   - CLAUDE.md
-   - .claude/
-2. Tell Claude your requirements and architecture
-3. Ask Claude to generate tasks
-4. Let Claude work through the tasks
+1. **Setup**: Copy `CLAUDE.md` and `.claude/` to your project
+2. **Define**: Tell Claude your requirements and architecture  
+3. **Plan**: Ask Claude to generate tasks
+4. **Execute**: Tell Claude to handle the next task
+5. **Review**: Give feedback until the task meets your standards
+6. **Complete**: Tell Claude the task is done and to commit changes
+7. **Continue**: 
+   - Tell Claude to start the next open task (-> 4)
+   - Or add new requirements or architecture (-> 2)
 
-Tasks are tracked with numbers for easy reference (`1.3` = task 1, step 3).
+Tasks use numbered references for easy tracking (`1.3` = task 1, step 3).

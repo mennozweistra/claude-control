@@ -38,3 +38,14 @@
 12. Archive completed tasks when requested by user
 
 Refer to `./.claude/workflow.md` for complete workflow details and requirements.
+
+## Named Commands System
+
+**IMPORTANT**: Use the commands defined in `./.claude/commands/` directory for common operations.
+
+When the user asks to "Run [command-name]", read the corresponding `./.claude/commands/[command-name].md` file and execute the prompt contained within it.
+
+Examples:
+- "Run review-tasks" → Read `./.claude/commands/review-tasks.md` and execute that prompt
+
+Always check the specific command file in `./.claude/commands/` for the exact prompt before executing.

@@ -39,7 +39,7 @@
 
 Refer to `./.claude/workflow.md` for complete workflow details and requirements.
 
-## Named Commands System
+## Repeatable Prompts as Commands
 
 **IMPORTANT**: Use the commands defined in `./.claude/commands/` directory for common operations.
 
